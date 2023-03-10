@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (ctx) => Products(),
+      // value: Products(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter App',
