@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopapp/widgets/badge.dart';
 import 'package:shopapp/widgets/products_grid.dart';
 
 
@@ -35,7 +36,9 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
                         value: filterOptions.Favorites),
                     PopupMenuItem(
                         child: Text('Show All'), value: filterOptions.All)
-                  ])
+                  ]),
+          Badge(child: IconButton(onPressed: (){},
+              icon: Icon(Icons.shopping_cart)))
         ],
         backgroundColor: Theme.of(context).primaryColor,
       ),
