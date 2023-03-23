@@ -66,6 +66,16 @@ class Products with ChangeNotifier {
   //   notifyListeners();
   // }
 
+  Future<void> fetchAndSetProducts() async{
+    try{
+      final url = Uri.https('tour-application-b695e-default-rtdb.asia-southeast1.firebasedatabase.app', '/products.json');
+      final response = await http.get(url);
+      print(response);
+    }catch(error){
+      throw (error);
+    }
+  }
+
   Future<void> addProduct(Product product) async{
     // _items.add(value);
    final url = Uri.https('tour-application-b695e-default-rtdb.asia-southeast1.firebasedatabase.app', '/products.json');
