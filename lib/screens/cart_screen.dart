@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:shopapp/providers/cart.dart' show Cart;
 import 'package:shopapp/providers/orders.dart';
 import '../widgets/cart_item.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   static const routeName = '/cart';
 
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  var _isLoading = false;
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
@@ -40,12 +45,18 @@ class CartScreen extends StatelessWidget {
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
                   TextButton(
-                      onPressed: () {
-                        Provider.of<Orders>(context, listen: false).addOrders(
+                      onPressed: cart.totalAmount <= 0 || _isLoading ? null : () async{
+                        setState(() {
+                          _isLoading = true;
+                        });
+                        await Provider.of<Orders>(context, listen: false).addOrders(
                             cart.items.values.toList(), cart.totalAmount);
+                        setState(() {
+                          _isLoading = false;
+                        });
                         cart.clear();
                       },
-                      child: Text(
+                      child: _isLoading ? CircularProgressIndicator() : Text(
                         'ORDER NOW',
                         style: TextStyle(color: Theme.of(context).primaryColor),
                       ))
@@ -70,3 +81,5 @@ class CartScreen extends StatelessWidget {
     );
   }
 }
+
+

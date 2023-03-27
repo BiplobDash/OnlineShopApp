@@ -42,7 +42,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      final productId = ModalRoute.of(context)!.settings.arguments;
+      final productId = ModalRoute.of(context)?.settings.arguments;
       if (productId != null) {
         _editedProduct = Provider.of<Products>(context, listen: false)
             .findById(productId.toString());
@@ -92,14 +92,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
     setState(() {
       _isloading = true;
     });
-    if (_editedProduct.id == null) {
-      Provider.of<Products>(context, listen: true)
+    if (_editedProduct.id != null) {
+      await Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
-      setState(() {
-        _isloading = false;
-      });
-      Navigator.of(context).pop();
-    } else {
+    }
+    else {
       try {
         await Provider.of<Products>(context, listen: false)
             .addProduct(_editedProduct);
@@ -120,13 +117,17 @@ class _EditProductScreenState extends State<EditProductScreen> {
           ),
         );
       }
-      finally{
-        setState(() {
-          _isloading = false;
-        });
-        Navigator.of(context).pop();
-      }
-      }
+      // finally {
+      //   setState(() {
+      //     _isLoading = false;
+      //   });
+      //   Navigator.of(context).pop();
+      // }
+    }
+    setState(() {
+      _isloading = false;
+    });
+    Navigator.of(context).pop();
     // Navigator.of(context).pop();
   }
 
